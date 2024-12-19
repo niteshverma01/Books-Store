@@ -51,6 +51,7 @@ function Footer() {
         <aside>
           <p>Copyright © 2024 - All right reserved by Nitesh verma</p>
         </aside>
+        <div>Made by ❤️ Nitesh</div>
       </footer>
     </div>
   );
