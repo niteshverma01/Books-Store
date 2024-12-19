@@ -1,33 +1,45 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { useForm } from 'react-hook-form';
+import toast from 'react-hot-toast';
 
 function Contact() {
-  const [name, setName] = useState('');
-  const [email, setEmail] = useState('');
-  const [message, setMessage] = useState('');
-
-  // const handleSubmit = (e) => {
-  //   e.preventDefault();
-  //   // Add your form submission logic here
-  //   console.log('Form submitted:', { name, email, message });
-  //   // Reset form fields
-  //   setName('');
-  //   setEmail('');
-  //   setMessage('');
-  // };
-
-const {
+  const {
     register,
     handleSubmit,
     formState: { errors },
   } = useForm();
+
+  const onSubmit = async (data) => {
+    if (data.message.length < 10) {
+      toast.error("Message must be at least 10 characters long.");
+      return;
+    }
+
+    try {
+      const response = await fetch('http://localhost:4000/contact', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(data),
+      });
+
+      const result = await response.text();  // Get the raw response as text first
+      if (response.ok) {
+        toast.success("Message sent successfully!");
+      } else {
+        toast.error(result || "Something went wrong. Please try again.");
+      }
+    } catch (error) {
+      console.error('Error submitting form:', error);
+      toast.error('Something went wrong. Please try again later.');
+    }
+  };
+
   return (
     <div className="py-12">
       <div className="max-w-md mx-auto">
         <h2 className="text-2xl mt-20 md:text-4xl">Contact Us</h2>
         <form
-         
-         
+          onSubmit={handleSubmit(onSubmit)}
           className="shadow-md rounded-md dark:bg-slate-800 shadow-lg px-8 pt-6 pb-8 mb-4"
         >
           <div className="mt-4 space-y-2">
@@ -36,9 +48,7 @@ const {
             <input
               id="name"
               type="text"
-              value={name}
-              onChange={(e) => setName(e.target.value)}
-              className="shadow appearance-none border rounded w-full py-2 px-3 rounded-md text-white-700 leading-tight focus:outline-none focus:shadow-outline"
+              className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
               placeholder="Enter your fullname"
               {...register('fullname', { required: true })}
             />
@@ -53,8 +63,6 @@ const {
             <input
               id="email"
               type="email"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
               className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
               placeholder="Enter your email"
               {...register('email', { required: true })}
@@ -69,8 +77,6 @@ const {
             <br />
             <textarea
               id="message"
-              value={message}
-              onChange={(e) => setMessage(e.target.value)}
               className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline h-32"
               placeholder="Enter your message"
               {...register('message', { required: true })}
@@ -81,7 +87,10 @@ const {
             )}
           </div>
           <div className="flex justify-around mt-4">
-            <button className="bg-pink-500 text-white rounded-md px-3 py-1 hover:bg-pink-700 duration-200">
+            <button
+              type="submit"
+              className="bg-pink-500 text-white rounded-md px-3 py-1 hover:bg-pink-700 duration-200"
+            >
               Submit
             </button>
           </div>
