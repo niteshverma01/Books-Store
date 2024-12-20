@@ -1,0 +1,36 @@
+{
+  "engines": {
+    "node": "v20.15.1"
+  },
+  "name": "bookstore",
+  "version": "1.0.0",
+  "description": "mern project",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node index.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/niteshverma01/Books-store.git"
+  },
+  "author": "nitesh",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/niteshverma01/Books-store/issues"
+  },
+  "homepage": "https://github.com/niteshverma01/Books-store#readme",
+  "dependencies": {
+    "bcrypt": "^5.1.1",
+    "bcryptjs": "^2.4.3",
+    "connect-mongo": "^5.1.0",
+    "cors": "^2.8.5",
+    "dotenv": "^16.4.7",
+    "express": "^4.21.2",
+    "express-session": "^1.18.1",
+    "googleapis": "^144.0.0",
+    "mongoose": "^8.9.1",
+    "nodemailer": "^6.9.16"
+  },
+  "type": "module"
+}
